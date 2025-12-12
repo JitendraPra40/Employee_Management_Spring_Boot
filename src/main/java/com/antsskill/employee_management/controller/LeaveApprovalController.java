@@ -1,8 +1,8 @@
 package com.antsskill.employee_management.controller;
 
 import com.antsskill.employee_management.dto.ApiResponse;
-import com.antsskill.employee_management.dto.LeaveApprovalDto;
-import com.antsskill.employee_management.dto.LeaveRequestDto;
+import com.antsskill.employee_management.dto.HrLeaveApprovalDto;
+import com.antsskill.employee_management.dto.ManagerLeaveApprovalDto;
 import com.antsskill.employee_management.service_impl.LeaveApprovalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/leave/approval")
+@RequestMapping("/api/leave/approval")
 public class LeaveApprovalController {
     private final LeaveApprovalService leaveApprovalService;
 
@@ -19,9 +19,15 @@ public class LeaveApprovalController {
         this.leaveApprovalService = leaveApprovalService;
     }
 
-    @PostMapping("/leaveId")
-    public ResponseEntity<ApiResponse<String>> leaveApproval(@RequestBody LeaveApprovalDto leaveApprovalDto){
-       String leaveApproval = leaveApprovalService.leaveApproval(leaveApprovalDto);
+    @PostMapping("/manager")
+    public ResponseEntity<ApiResponse<String>> managerApproval(@RequestBody ManagerLeaveApprovalDto managerLeaveApprovalDto){
+       String leaveApproval = leaveApprovalService.managerApproval(managerLeaveApprovalDto);
        return ResponseEntity.ok(new ApiResponse<>(200, "Leave Status Updated", leaveApproval));
+    }
+
+    @PostMapping("/hr")
+    public ResponseEntity<ApiResponse<String>> hrApproval(@RequestBody HrLeaveApprovalDto hrLeaveApprovalDto){
+        String leaveApproval = leaveApprovalService.hrApproval(hrLeaveApprovalDto);
+        return ResponseEntity.ok(new ApiResponse<>(200, "Leave Status Updated", leaveApproval));
     }
 }

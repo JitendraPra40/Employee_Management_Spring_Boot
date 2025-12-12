@@ -2,6 +2,8 @@ package com.antsskill.employee_management.entity;
 
 import com.antsskill.employee_management.enums.LeaveRequestStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -18,12 +20,16 @@ public class LeaveRequest {
     @Column(name="id")
     private Long id;
 
+
+
     @Column(name = "start_date", nullable = false)
     @JdbcTypeCode(SqlTypes.DATE)
+    @FutureOrPresent
     private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
     @JdbcTypeCode(SqlTypes.DATE)
+    @FutureOrPresent
     private LocalDate endDate;
 
     @Column(name = "reason", nullable = false)
@@ -32,15 +38,20 @@ public class LeaveRequest {
 
     @Column(name = "applied_date", nullable = false)
     @JdbcTypeCode(SqlTypes.DATE)
+    @PastOrPresent
     private LocalDate appliedDate;
 
-    private String approvedBy;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="emp_id", nullable = false)
-    private Employee employee;
+    private String approvedByManager;
+    private String approvedByHr;
 
     @Enumerated(EnumType.STRING)
-    private LeaveRequestStatus status = LeaveRequestStatus.PENDING;
+    private LeaveRequestStatus status;
 
+    private String rejectionReason;
+
+    private int remainingLeave;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="employee_id", nullable = false)
+    private Employee employee;
 }
