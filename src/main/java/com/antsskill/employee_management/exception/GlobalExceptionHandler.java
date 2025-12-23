@@ -31,10 +31,10 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception ex, HttpServletRequest request){
-        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request.getRequestURI());
-    }
+//    @ExceptionHandler(Exception.class)
+//        public ResponseEntity<?> handleException(Exception ex, HttpServletRequest request){
+//            return buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request.getRequestURI());
+//        }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationErrors(
@@ -61,39 +61,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
-
-
-                        //     -------------- option: 1 ----------------------
-                        //        StringBuilder errors = new StringBuilder();
-                        //        ex.getBindingResult().getFieldErrors().forEach(error -> {
-                        //            errors.append(error.getField())
-                        //                    .append(": ")
-                        //                    .append(error.getDefaultMessage())
-                        //                    .append("; ");
-                        //        });
-                        //        return buildError(
-                        //                HttpStatus.BAD_REQUEST,
-                        //                errors.toString(),
-                        //                request.getRequestURI()
-                        //        );
-                        //    }
-
-                        //    -------------- option: 2 ----------------------
-                        //         List<String> errors = ex.getBindingResult()
-                        //                .getFieldErrors()
-                        //                .stream()
-                        //                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                        //                .toList();
-                        //
-                        //        return buildErrorList(
-                        //                HttpStatus.BAD_REQUEST,
-                        //                errors.toString(),
-                        //                request.getRequestURI()
-                        //        );
-                        //    }
-
-
-
 
     private ResponseEntity<ErrorResponseDto> buildError(HttpStatus status, String message, String path){
         ErrorResponseDto error = new ErrorResponseDto(

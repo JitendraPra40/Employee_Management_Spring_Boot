@@ -1,6 +1,6 @@
 package com.antsskill.employee_management.entity;
 
-import com.antsskill.employee_management.enums.UserRole;
+import com.antsskill.employee_management.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,19 +8,22 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    @Column(nullable = false)
+    private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private Employee employee;
-
+    // getters & setters
 }
